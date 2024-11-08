@@ -6,7 +6,7 @@
       ##############################
 
 
-forcefield              OPLS-AA
+forcefield              OPLS-AA-2008
 
 vdwindex                TYPE
 vdwtype                 LENNARD-JONES
@@ -31,11 +31,11 @@ dielectric              1.0
 
 The parameters supplied with Tinker are from "OPLS All-Atom Parameters
 for Organic Molecules, Ions, Peptides & Nucleic Acids, July 2008" as
-provided by W. L. Jorgensen, Yale University during June 2009. These
-parameters are taken from those distributed with BOSS Version 4.8.
+provided by Bill Jorgensen, Yale University during June 2009. These are
+the parameters distributed with BOSS Version 4.8.
 
-Note that "atom type" numbers and not "atom class" numbers are used
-to index van der Waals parameters, see the "vdwindex" keyword above
+Note "atom type" numbers and not "atom class" numbers are used to index
+van der Waals parameters, see the "vdwindex" keyword above
 
 The atom types with (UA) in the description are "united atom" values,
 ie, OPLS-UA, where any nonpolar hydrogen atoms are combined onto their

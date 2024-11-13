@@ -283,7 +283,11 @@ c
      &         .and. integrate.ne.'GHMC') then
             if (.not. use_exfld) then
                if (use_bounds) then
-                  nfree = nfree - 3
+                  if (integrate.ne.'RIGIDBODY' .and. ngrp.ne.0) then
+                     nfree = nfree - 6*(ngrp+1)
+                  else
+                     nfree = nfree - 3
+                  end if
                else
                   nfree = nfree - 6
                end if

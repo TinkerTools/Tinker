@@ -1390,7 +1390,7 @@ c
      &                    2x,'Valence',2x,'Description',/)
             end if
             write (iout,310)  i,name(i),type(i),class(i),atomic(i),
-     &                        mass(i),valence(i),story(i)
+     &                        mass(i),valnum(i),story(i)
   310       format (i6,5x,a3,2i7,i6,f10.3,i5,5x,a24)
          end if
       end do
@@ -2376,7 +2376,7 @@ c
      &                    2x,'Valence',2x,'Description',/)
             end if
             write (iout,160)  i,name(i),type(i),class(i),atomic(i),
-     &                        mass(i),valence(i),story(i)
+     &                        mass(i),valnum(i),story(i)
   160       format (i6,5x,a3,2i7,i6,f10.3,i5,5x,a24)
          end if
       end do

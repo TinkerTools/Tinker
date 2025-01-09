@@ -15,7 +15,7 @@ c
 c     tag       integer atom labels from input coordinates file
 c     class     atom class number for each atom in the system
 c     atomic    atomic number for each atom in the system
-c     valence   valence number for each atom in the system
+c     valnum    valence number for each atom in the system
 c     mass      atomic weight for each atom in the system
 c     name      atom name for each atom in the system
 c     story     descriptive type for each atom in system
@@ -27,7 +27,7 @@ c
       integer tag(maxatm)
       integer class(maxatm)
       integer atomic(maxatm)
-      integer valence(maxatm)
+      integer valnum(maxatm)
       real*8 mass(maxatm)
       character*3 name(maxatm)
       character*24 story(maxatm)

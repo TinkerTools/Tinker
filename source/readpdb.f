@@ -687,10 +687,14 @@ c
       if (resname .eq. 'CYM')  resname = 'CYD'
       if (resname .eq. 'LYP')  resname = 'LYS'
       if (resname .eq. 'LYN')  resname = 'LYD'
+      if (resname .eq. 'LSN')  resname = 'LYD'
 c
 c     convert unusual names for terminal capping residues
 c
+      if (resname .eq. 'ACP')  resname = 'ACE'
       if (resname .eq. 'NMA')  resname = 'NME'
+      if (resname .eq. 'CT3')  resname = 'NME'
+      if (resname .eq. 'CT2')  resname = 'NH2'
 c
 c     convert nonstandard names for water molecules
 c
@@ -731,6 +735,7 @@ c
       if (resname .eq. 'KR ')  resname = ' KR'
       if (resname .eq. 'RB ')  resname = ' RB'
       if (resname .eq. 'RB+')  resname = ' RB'
+      if (resname .eq. 'RUB')  resname = ' RB'
       if (resname .eq. 'SR ')  resname = ' SR'
       if (resname .eq. 'SR+')  resname = ' SR'
       if (resname .eq. 'I  ')  resname = '  I'
@@ -741,6 +746,7 @@ c
       if (resname .eq. 'CES')  resname = ' CS'
       if (resname .eq. 'BA ')  resname = ' BA'
       if (resname .eq. 'BA+')  resname = ' BA'
+      if (resname .eq. 'BAR')  resname = ' BA'
 c
 c     decide whether residue is protein or nucleic acid
 c
@@ -973,7 +979,7 @@ c
          if (atmname .eq. ' HNE')  atmname = ' HE2'
          if (atmname .eq. 'HNE2')  atmname = ' HE2'
 c
-c     aspartic acid residue  (ASP)
+c     aspartate residue  (ASP)
 c
       else if (resname .eq. 'ASP') then
          if (atmname .eq. '1HB ')  atmname = ' HB2'
@@ -993,7 +999,7 @@ c
          if (atmname .eq. '2HD2')  atmname = 'HD22'
          if (atmname .eq. 'HND2')  atmname = 'HD22'
 c
-c     glutamic acid residue  (GLU)
+c     glutamate residue  (GLU)
 c
       else if (resname .eq. 'GLU') then
          if (atmname .eq. '1HB ')  atmname = ' HB2'

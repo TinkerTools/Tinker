@@ -211,7 +211,7 @@ c
       do i = 1, n
          type(i) = i
          class(i) = i
-         valence(i) = n12(i)
+         valnum(i) = n12(i)
          story(i) = filename(1:size)
       end do
 c
@@ -4442,7 +4442,7 @@ c
          if (it .ne. atlast) then
             atlast = it
             write (ikey,30)  type(i),class(i),name(i),story(i),
-     &                       atomic(i),mass(i),valence(i)
+     &                       atomic(i),mass(i),valnum(i)
    30       format ('atom',6x,2i5,4x,a3,3x,'"',a20,'"',i10,f10.3,i5)
          end if
       end do

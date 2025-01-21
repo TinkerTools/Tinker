@@ -12,8 +12,8 @@ c     ##                                                          ##
 c     ##############################################################
 c
 c
-c     "prtfrc" writes out a set of atom force components
-c     to an external disk file in Tinker XYZ format
+c     "prtfrc" writes out a set of atom force components to an
+c     external file in Tinker XYZ format
 c
 c
       subroutine prtfrc (ifrc)

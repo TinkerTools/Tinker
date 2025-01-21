@@ -948,7 +948,7 @@ c     ##############################################################
 c
 c
 c     "saveyze" prints the atomic forces and/or the induced dipoles
-c     to separate external disk files
+c     to separate external files
 c
 c
       subroutine saveyze (frame)

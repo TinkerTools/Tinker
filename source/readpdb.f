@@ -12,8 +12,8 @@ c     ##                                                           ##
 c     ###############################################################
 c
 c
-c     "readpdb" gets a set of Protein Data Bank coordinates
-c     from an external disk file
+c     "readpdb" gets a set of Protein Data Bank coordinates from
+c     an external file
 c
 c
       subroutine readpdb (ipdb)

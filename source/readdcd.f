@@ -13,7 +13,7 @@ c     ###############################################################
 c
 c
 c     "readdcd" reads in a set of Cartesian coordinates from an
-c     external disk file in CHARMM DCD binary format
+c     external file in CHARMM DCD binary format
 c
 c
       subroutine readdcd (idcd,first)

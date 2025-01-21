@@ -13,7 +13,7 @@ c     ###############################################################
 c
 c
 c     "prtxyz" writes out a set of Cartesian atomic coordinates
-c     to an external disk file in Tinker XYZ format
+c     to an external file in Tinker XYZ format
 c
 c
       subroutine prtxyz (ixyz)

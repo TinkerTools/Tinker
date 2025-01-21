@@ -1918,6 +1918,10 @@ void mdinit_(double* dt);
 // mdrest.f
 void mdrest_(int* istep);
 #define tinker_f_mdrest mdrest_
+void rgdrest_();
+#define tinker_f_rgdrest rgdrest_
+void xyzrest_();
+#define tinker_f_xyzrest xyzrest_
 
 // mdsave.f
 void mdsave_(int* istep, double* dt, double* epot, double* eksum);

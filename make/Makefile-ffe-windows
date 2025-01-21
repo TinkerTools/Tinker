@@ -1943,7 +1943,7 @@ getmol.o: files.o inform.o iounit.o
 getmol2.o: files.o inform.o iounit.o
 getnumb.o: ascii.o
 getpdb.o: files.o inform.o iounit.o
-getprm.o: files.o inform.o iounit.o keys.o params.o
+getprm.o: argue.o files.o inform.o iounit.o keys.o params.o
 getref.o: atomid.o atoms.o boxes.o couple.o files.o refer.o titles.o
 getstring.o: ascii.o
 gettext.o: ascii.o
@@ -2185,7 +2185,7 @@ readmol2.o: atomid.o atoms.o couple.o files.o iounit.o ptable.o titles.o
 readpdb.o: files.o inform.o iounit.o pdb.o resdue.o sequen.o titles.o
 readprm.o: fields.o iounit.o kanang.o kangs.o kantor.o katoms.o kbonds.o kcflux.o kchrge.o kcpen.o kctrn.o kdipol.o kdsp.o kexpl.o khbond.o kiprop.o kitors.o kmulti.o kopbnd.o kopdst.o korbs.o kpitor.o kpolpr.o kpolr.o krepl.o ksolut.o kstbnd.o ksttor.o ktorsn.o ktrtor.o kurybr.o kvdwpr.o kvdws.o merck.o params.o
 readseq.o: files.o iounit.o resdue.o sequen.o
-readxyz.o: atomid.o atoms.o boxes.o couple.o files.o inform.o iounit.o titles.o
+readxyz.o: atomid.o atoms.o bound.o boxes.o couple.o files.o inform.o iounit.o titles.o
 refer.o: sizes.o
 repel.o:
 replica.o: bound.o boxes.o cell.o inform.o iounit.o math.o

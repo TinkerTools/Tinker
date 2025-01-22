@@ -1367,7 +1367,7 @@ analyz.o:
 analyze.o: action.o analyz.o angang.o angbnd.o angpot.o angtor.o atomid.o atoms.o bath.o bitor.o bndstr.o bound.o boxes.o cflux.o charge.o chgpen.o chgpot.o chgtrn.o couple.o deriv.o dipole.o disp.o energi.o ewald.o fields.o files.o improp.o imptor.o inform.o inter.o iounit.o korbs.o ktrtor.o kvdws.o limits.o math.o molcul.o moment.o mplpot.o mpole.o opbend.o opdist.o output.o piorbs.o pistuf.o pitors.o pme.o polar.o polgrp.o polpot.o potent.o repel.o solpot.o solute.o strbnd.o strtor.o titles.o tors.o tortor.o units.o urey.o vdw.o vdwpot.o virial.o
 angang.o:
 angbnd.o:
-angles.o: angbnd.o atmlst.o atoms.o couple.o iounit.o
+angles.o: angbnd.o atmlst.o atoms.o couple.o
 angpot.o:
 angtor.o:
 anneal.o: atomid.o atoms.o bath.o bndstr.o bound.o inform.o iounit.o mdstuf.o potent.o solute.o usage.o warp.o
@@ -1385,10 +1385,10 @@ bath.o:
 beeman.o: atomid.o atoms.o freeze.o ielscf.o mdstuf.o moldyn.o polar.o units.o usage.o
 bicubic.o:
 bitor.o:
-bitors.o: angbnd.o atoms.o bitor.o couple.o iounit.o
+bitors.o: angbnd.o atoms.o bitor.o couple.o
 bndpot.o:
 bndstr.o:
-bonds.o: atmlst.o atoms.o bndstr.o couple.o iounit.o
+bonds.o: atmlst.o atoms.o bndstr.o couple.o
 born.o: atomid.o atoms.o bath.o chgpot.o couple.o deriv.o inform.o iounit.o math.o mpole.o mutant.o pbstuf.o solpot.o solute.o virial.o
 bound.o:
 bounds.o: atomid.o atoms.o boxes.o math.o molcul.o
@@ -1914,7 +1914,7 @@ torpot.o:
 torque.o: atoms.o deriv.o mpole.o
 tors.o:
 torsfit.o: atomid.o atoms.o files.o inform.o iounit.o keys.o ktorsn.o math.o output.o potent.o qmstuf.o restrn.o scales.o tors.o usage.o
-torsions.o: atoms.o bndstr.o couple.o iounit.o tors.o
+torsions.o: atoms.o bndstr.o couple.o tors.o
 tortor.o:
 tree.o:
 trimtext.o:

@@ -39,6 +39,7 @@ c
       real*4, allocatable :: xs(:)
       real*4, allocatable :: ys(:)
       real*4, allocatable :: zs(:)
+      real*8 aterm,bterm,gterm
       logical exist,opened
       logical first
       character*4 header
@@ -97,14 +98,13 @@ c
       abort = .true.
       if (use_bounds) then
          call unitcell
-         read (idcd,err=40,end=60)  xbox,gamma_cos,ybox,beta_cos,
-     &                              alpha_cos,zbox
-         alpha = 90.0d0
-         beta = 90.0d0
-         gamma = 90.0d0
-         if (alpha_cos .ne. 0.0d0)  alpha = radian * acos(alpha_cos)
-         if (beta_cos .ne. 0.0d0)  beta = radian * acos(beta_cos)
-         if (gamma_cos .ne. 0.0d0)  gamma = radian * acos(gamma_cos)
+         read (idcd,err=40,end=60)  xbox,gterm,ybox,bterm,aterm,zbox
+         alpha = aterm
+         if (abs(aterm) .le. 1.0d0) alpha = radian * acos(aterm)
+         beta = bterm
+         if (abs(bterm) .le. 1.0d0) beta = radian * acos(bterm)
+         gamma = gterm
+         if (abs(gterm) .le. 1.0d0) gamma = radian * acos(gterm)
          call lattice
       end if
 c

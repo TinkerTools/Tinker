@@ -13,8 +13,8 @@ c     ##########################################################
 c
 c
 c     "rings" searches the structure for small rings and stores
-c     their constituent atoms, and optionally reduces large rings
-c     into their component smaller rings
+c     their constituent atoms, and optionally reduces rings into
+c     their component smaller rings
 c
 c     note by default reducible rings are not removed since they
 c     are needed for force field parameter assignment

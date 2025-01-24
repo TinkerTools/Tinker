@@ -180,6 +180,11 @@ c
                if (xtmp .ne. 0.0d0) then
                   use_bounds = .true.
                   xbox = xtmp
+                  ybox = ytmp
+                  zbox = ztmp
+                  alpha = atmp
+                  beta = btmp
+                  gamma = gtmp
                   if (ytmp .eq. 0.0d0)  ybox = xbox
                   if (ztmp .eq. 0.0d0)  zbox = xbox
                   if (atmp .eq. 0.0d0)  alpha = 90.0d0

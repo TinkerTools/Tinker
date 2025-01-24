@@ -39,7 +39,6 @@ c
       real*4, allocatable :: xs(:)
       real*4, allocatable :: ys(:)
       real*4, allocatable :: zs(:)
-      real*8 aterm,bterm,gterm
       logical exist,opened
       logical first
       character*4 header
@@ -93,18 +92,16 @@ c
          call fatal
       end if
 c
-c     read the lattice values based on header flag value
+c     read the lattice values based on header flag value;
+c     using angle values is NAMD style, cosine values is CHARMM
 c
       abort = .true.
       if (use_bounds) then
          call unitcell
-         read (idcd,err=40,end=60)  xbox,gterm,ybox,bterm,aterm,zbox
-         alpha = aterm
-         if (abs(aterm) .le. 1.0d0) alpha = radian * acos(aterm)
-         beta = bterm
-         if (abs(bterm) .le. 1.0d0) beta = radian * acos(bterm)
-         gamma = gterm
-         if (abs(gterm) .le. 1.0d0) gamma = radian * acos(gterm)
+         read (idcd,err=40,end=60)  xbox,gamma,ybox,beta,alpha,zbox
+         if (abs(alpha) .le. 1.0d0)  alpha = radian * acos(alpha)
+         if (abs(beta) .le. 1.0d0)  beta = radian * acos(beta)
+         if (abs(gamma) .le. 1.0d0)  gamma = radian * acos(gamma)
          call lattice
       end if
 c

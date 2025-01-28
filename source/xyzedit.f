@@ -61,6 +61,7 @@ c
       logical exist,query
       logical opened,multi
       logical append,first
+      logical generic
       character*1 axis
       character*3 symb
       character*240 xyzfile
@@ -76,7 +77,8 @@ c
       call initial
       opened = .false.
       multi = .false.
-      nmode = 27
+      generic = .false.
+      nmode = 28
       offset = 0
 c
 c     find the Cartesian coordinates file to be processed
@@ -98,32 +100,33 @@ c
       write (iout,10)
    10 format (/,' The Tinker XYZ File Editing Utility Can :',
      &        //,4x,'(1) Convert Simple XYZ File to Tinker Format',
-     &        /,4x,'(2) Offset the Numbers of the Current Atoms',
-     &        /,4x,'(3) Remove User Specified Individual Atoms',
-     &        /,4x,'(4) Remove User Specified Types of Atoms',
-     &        /,4x,'(5) Delete Inactive Atoms Beyond Cutoff Range',
-     &        /,4x,'(6) Insertion of Individual Specified Atoms',
-     &        /,4x,'(7) Replace Old Atom Type with a New Type',
-     &        /,4x,'(8) Assign Connectivities for Linear Chain',
-     &        /,4x,'(9) Assign Connectivities Based on Distance',
-     &        /,3x,'(10) Assign Atom Types for BASIC Force Field',
-     &        /,3x,'(11) Transfer Atom Types from Another Structure',
-     &        /,3x,'(12) Convert Units from Bohrs to Angstroms',
-     &        /,3x,'(13) Invert thru Origin to Give Mirror Image',
-     &        /,3x,'(14) Translate All Atoms by an X,Y,Z-Vector',
-     &        /,3x,'(15) Translate Center of Mass to the Origin',
-     &        /,3x,'(16) Translate a Specified Atom to the Origin',
-     &        /,3x,'(17) Translate and Rotate to Inertial Frame',
-     &        /,3x,'(18) Rotate All Atoms Around a Specified Axis',
-     &        /,3x,'(19) Move to Specified Rigid Body Coordinates',
-     &        /,3x,'(20) Move Stray Molecules into Periodic Box',
-     &        /,3x,'(21) Trim a Periodic Box to a Smaller Size',
-     &        /,3x,'(22) Make Truncated Octahedron from Cubic Box',
-     &        /,3x,'(23) Make Rhombic Dodecahedron from Cubic Box',
-     &        /,3x,'(24) Append a Second XYZ File to Current One',
-     &        /,3x,'(25) Create and Fill a Periodic Boundary Box',
-     &        /,3x,'(26) Soak Current Molecule in Box of Solvent',
-     &        /,3x,'(27) Place Monoatomic Ions around a Solute')
+     &        /,4x,'(2) Convert Tinker File to Simple XYZ Format',
+     &        /,4x,'(3) Offset the Numbers of the Current Atoms',
+     &        /,4x,'(4) Remove User Specified Individual Atoms',
+     &        /,4x,'(5) Remove User Specified Types of Atoms',
+     &        /,4x,'(6) Delete Inactive Atoms Beyond Cutoff Range',
+     &        /,4x,'(7) Insertion of Individual Specified Atoms',
+     &        /,4x,'(8) Replace Old Atom Type with a New Type',
+     &        /,4x,'(9) Assign Connectivities for Linear Chain',
+     &        /,3x,'(10) Assign Connectivities Based on Distance',
+     &        /,3x,'(11) Assign Atom Types for BASIC Force Field',
+     &        /,3x,'(12) Transfer Atom Types from Another Structure',
+     &        /,3x,'(13) Convert Units from Bohrs to Angstroms',
+     &        /,3x,'(14) Invert thru Origin to Give Mirror Image',
+     &        /,3x,'(15) Translate All Atoms by an X,Y,Z-Vector',
+     &        /,3x,'(16) Translate Center of Mass to the Origin',
+     &        /,3x,'(17) Translate a Specified Atom to the Origin',
+     &        /,3x,'(18) Translate and Rotate to Inertial Frame',
+     &        /,3x,'(19) Rotate All Atoms Around a Specified Axis',
+     &        /,3x,'(20) Move to Specified Rigid Body Coordinates',
+     &        /,3x,'(21) Move Stray Molecules into Periodic Box',
+     &        /,3x,'(22) Trim a Periodic Box to a Smaller Size',
+     &        /,3x,'(23) Make Truncated Octahedron from Cubic Box',
+     &        /,3x,'(24) Make Rhombic Dodecahedron from Cubic Box',
+     &        /,3x,'(25) Append a Second XYZ File to Current One',
+     &        /,3x,'(26) Create and Fill a Periodic Boundary Box',
+     &        /,3x,'(27) Soak Current Molecule in Box of Solvent',
+     &        /,3x,'(28) Place Monoatomic Ions around a Solute')
 c
 c     get the desired type of coordinate file modification
 c
@@ -162,6 +165,7 @@ c
 c     read generic XYZ file and convert to Tinker format
 c
       if (mode .eq. 1) then
+         generic = .false.
          do while (.not. abort)
             call makeref (1)
             call readcart (ixyz,first)
@@ -179,9 +183,30 @@ c
          end if
       end if
 c
-c     get the offset value to be used in atom renumbering
+c     read Tinker XYZ file and convert to generic format
 c
       if (mode .eq. 2) then
+         generic = .true.
+         do while (.not. abort)
+            call makeref (1)
+            call readcart (ixyz,first)
+            if (.not. abort)  multi = .true.
+            if (multi) then
+               call makeref (2)
+               call getref (1)
+               call prtgen (imod)
+               call getref (2)
+            end if
+         end do
+         if (.not. multi) then
+            call getref (1)
+            goto 20
+         end if
+      end if
+c
+c     get the offset value to be used in atom renumbering
+c
+      if (mode .eq. 3) then
    70    continue
          offset = 0
          query = .true.
@@ -216,7 +241,7 @@ c
 c
 c     remove a specified list of individual atoms
 c
-      if (mode .eq. 3) then
+      if (mode .eq. 4) then
          allocate (list(n))
          nlist = 0
          do i = 1, n
@@ -269,7 +294,7 @@ c
 c
 c     remove atoms with any of a specified list of atom types
 c
-      if (mode .eq. 4) then
+      if (mode .eq. 5) then
          allocate (list(n))
          nlist = 0
          do i = 1, n
@@ -315,7 +340,7 @@ c
 c
 c     remove atoms that are inactive and lie outside all cutoffs
 c
-      if (mode .eq. 5) then
+      if (mode .eq. 6) then
          call cutoffs
          cut2 = 0.0d0
          if (vdwcut .le. 1000.0d0)  cut2 = max(vdwcut**2,cut2)
@@ -379,7 +404,7 @@ c
 c
 c     insert a specified list of individual atoms
 c
-      if (mode .eq. 6) then
+      if (mode .eq. 7) then
          allocate (list(n))
          nlist = 0
          do i = 1, n
@@ -428,7 +453,7 @@ c
 c
 c     get an old atom type and new atom type for replacement
 c
-      if (mode .eq. 7) then
+      if (mode .eq. 8) then
   220    continue
          oldtype = 0
          newtype = 0
@@ -471,7 +496,7 @@ c
 c
 c     assign atom connectivities to produce a linear chain
 c
-      if (mode .eq. 8) then
+      if (mode .eq. 9) then
          do while (.not. abort)
             do i = 1, n
                n12(i) = 0
@@ -502,7 +527,7 @@ c
 c
 c     assign atom connectivities based on interatomic distances
 c
-      if (mode .eq. 9) then
+      if (mode .eq. 10) then
          allocate (rad(n))
          do while (.not. abort)
             call unitcell
@@ -577,7 +602,7 @@ c
 c
 c     assign atom types for the Tinker BASIC force field
 c
-      if (mode .eq. 10) then
+      if (mode .eq. 11) then
          do while (.not. abort)
             do i = 1, n
                k = atomic(i)
@@ -619,7 +644,7 @@ c
 c
 c     transfer atoms types from one structure to another
 c
-      if (mode .eq. 11) then
+      if (mode .eq. 12) then
          call makeref (1)
          call nextarg (tmpfile,exist)
          if (exist) then
@@ -673,7 +698,7 @@ c
 c
 c     convert the coordinate units from Bohrs to Angstroms
 c
-      if (mode .eq. 12) then
+      if (mode .eq. 13) then
          do while (.not. abort)
             do i = 1, n
                x(i) = x(i) * bohr
@@ -698,7 +723,7 @@ c
 c
 c     get mirror image by inverting coordinates through origin
 c
-      if (mode .eq. 13) then
+      if (mode .eq. 14) then
          do while (.not. abort)
             do i = 1, n
                x(i) = -x(i)
@@ -723,7 +748,7 @@ c
 c
 c     translate the entire system by a specified x,y,z-vector
 c
-      if (mode .eq. 14) then
+      if (mode .eq. 15) then
          xr = 0.0d0
          yr = 0.0d0
          zr = 0.0d0
@@ -766,7 +791,7 @@ c
 c
 c     translate the center of mass to the coordinate origin
 c
-      if (mode .eq. 15) then
+      if (mode .eq. 16) then
          do while (.not. abort)
             xcm = 0.0d0
             ycm = 0.0d0
@@ -807,7 +832,7 @@ c
 c
 c     translate to place a specified atom at the origin
 c
-      if (mode .eq. 16) then
+      if (mode .eq. 17) then
          origin = 0
          call nextarg (string,exist)
          if (exist)  read (string,*,err=340,end=340)  origin
@@ -846,7 +871,7 @@ c
 c
 c     translate and rotate into standard orientation
 c
-      if (mode .eq. 17) then
+      if (mode .eq. 18) then
          do while (.not. abort)
             call inertia (2)
             call makeref (1)
@@ -867,7 +892,7 @@ c
 c
 c     rotate about a coordinate axis by a specified amount
 c
-      if (mode .eq. 18) then
+      if (mode .eq. 19) then
          axis = ' '
          theta = 0.0d0
          call nextarg (string,exist)
@@ -939,7 +964,7 @@ c
 c
 c     translate and rotate to specified rigid body coordinates
 c
-      if (mode .eq. 19) then
+      if (mode .eq. 20) then
          xcm = 0.0d0
          ycm = 0.0d0
          zcm = 0.0d0
@@ -1014,7 +1039,7 @@ c
 c
 c     move stray molecules back into original periodic box
 c
-      if (mode .eq. 20) then
+      if (mode .eq. 21) then
          do while (.not. abort)
             call unitcell
             if (use_bounds) then
@@ -1040,7 +1065,7 @@ c
 c
 c     remove molecules to trim periodic box to smaller size
 c
-      if (mode .eq. 21) then
+      if (mode .eq. 22) then
          xnew = 0.0d0
          ynew = 0.0d0
          znew = 0.0d0
@@ -1145,7 +1170,7 @@ c
 c
 c     trim cube to truncated octahedron or rhombic dodecahedron
 c
-      if (mode.eq.22 .or. mode.eq.23) then
+      if (mode.eq.23 .or. mode.eq.24) then
          call unitcell
          do while (xbox .eq. 0.0d0)
             write (iout,490)
@@ -1253,7 +1278,7 @@ c
 c
 c     append a second file to the current coordinates file
 c
-      if (mode .eq. 24) then
+      if (mode .eq. 25) then
          append = .false.
          do while (.not. abort)
             call makeref (1)
@@ -1283,19 +1308,19 @@ c
 c
 c     create random box full of the current coordinates file
 c
-      if (mode .eq. 25) then
+      if (mode .eq. 26) then
          call makebox
       end if
 c
 c     solvate the current system by insertion into a solvent box
 c
-      if (mode .eq. 26) then
+      if (mode .eq. 27) then
          call soak
       end if
 c
 c     replace random solvent molecules outside solute with ions
 c
-      if (mode .eq. 27) then
+      if (mode .eq. 28) then
          call molecule
          call addions
       end if
@@ -1303,7 +1328,11 @@ c
 c     output final coordinates for single frame and print info
 c
       if (opened .and. .not.multi) then
-         call prtmod (imod,offset)
+         if (generic) then
+            call prtgen (imod)
+         else
+            call prtmod (imod,offset)
+         end if
       end if
       if (opened) then
          close (unit=imod)
@@ -1318,11 +1347,11 @@ c
       end
 c
 c
-c     ################################################################
-c     ##                                                            ##
-c     ##  subroutine prtmod  --  Cartesian coordinates with offset  ##
-c     ##                                                            ##
-c     ################################################################
+c     ##################################################################
+c     ##                                                              ##
+c     ##  subroutine prtmod  --  output of atomic coords with offset  ##
+c     ##                                                              ##
+c     ##################################################################
 c
 c
 c     "prtmod" writes out a set of modified Cartesian coordinates
@@ -1404,6 +1433,80 @@ c
             write (imod,fstr)  i+offset,name(i),x(i),y(i),z(i),type(i),
      &                         (i12(j,i)+offset,j=1,k)
          end if
+      end do
+      return
+      end
+c
+c
+c     ##############################################################
+c     ##                                                          ##
+c     ##  subroutine prtgen  --  output of generic atomic coords  ##
+c     ##                                                          ##
+c     ##############################################################
+c
+c
+c     "prtgen" writes out a set of Cartesian coordinates to an
+c     external file in a simple generic format
+c
+c
+      subroutine prtgen (imod)
+      use atomid
+      use atoms
+      use inform
+      use titles
+      implicit none
+      integer i,j,k,imod
+      integer size,crdsiz
+      real*8 crdmin,crdmax
+      character*2 crdc
+      character*2 digc
+      character*10 atmc
+      character*25 fstr
+c
+c
+c     check for large systems needing extended formatting
+c
+      crdmin = 0.0d0
+      crdmax = 0.0d0
+      do i = 1, n
+         crdmin = min(crdmin,x(i),y(i),z(i))
+         crdmax = max(crdmax,x(i),y(i),z(i))
+      end do
+      crdsiz = 6
+      if (crdmin .le. -1000.0d0)  crdsiz = 7
+      if (crdmax .ge. 10000.0d0)  crdsiz = 7
+      if (crdmin .le. -10000.0d0)  crdsiz = 8
+      if (crdmax .ge. 100000.0d0)  crdsiz = 8
+      crdsiz = crdsiz + max(6,digits)
+      size = 0
+      call numeral (crdsiz,crdc,size)
+      if (digits .le. 6) then
+         digc = '6 '
+      else if (digits .le. 8) then
+         digc = '8'
+      else
+         digc = '10'
+      end if
+c
+c     write out the number of atoms and the title
+c
+      size = 1
+      call numeral (n,atmc,size)
+      fstr = '('//'a'//')'
+      write (imod,fstr(1:3))  atmc(1:size)
+      if (ltitle .eq. 0) then
+         fstr = '('//')'
+         write (imod,fstr(1:2))
+      else
+         fstr = '('//'a'//')'
+         write (imod,fstr(1:3))  title(1:ltitle)
+      end if
+c
+c     write out the coordinate line for each atom
+c
+      fstr = '(a3,3f'//crdc//'.'//digc//')'
+      do i = 1, n
+         write (imod,fstr)  name(i),x(i),y(i),z(i)
       end do
       return
       end
